@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WaterWell</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='/css/style.css') }}">
+</head>
+<body>
+  <header class="bg-primary shadow-md py-3">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div>
+                <a href="#" class="navbar-brand text-light fs-4 fw-bold"><i class="fa fa-code text-light"></i> Water Well</a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon p-3 bg-secondary rounded text-light"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="#home">Home</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="#prediction">Prediction</a>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+    </div>
+</header>
+  <section id="home" class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <h2 class="mb-4">Welcome to Water Well</h2>
+          <p class="lead">Our webapp pridects water surface elivation using five input variables. Our innovative approach ensures sustainable water management and conservation.</p>
+          <p class="lead">Our Team<b> Harsh Chaudhary,Amrendra Pratap Singh, Gaurav Shukla</b></p>
+        </div>
+        <div class="col-lg-6" >
+          <img src="/static/img/well-145660_960_720.png" class="img-fluid" alt="Home Image" style="height: 30ch;">
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section id="prediction">
+  <div class="container mt-5">
+    <h1 class="mb-4 text-center font-weight-bold text-primary">Prediction</h1>
+    <div class="row justify-content-center">
+      <div class="col-sm-8">
+        <form id="predictionForm" novalidate>
+          <div class="form-group">
+            <label for="WLM_RPE" class="fw-bold">Reference to sea level(WLM_RPE):</label>
+            <input type="number" class="form-control" id="WLM_RPE" name="WLM_RPE" required>
+            <div class="invalid-feedback">Please enter a valid Reference to sea level value.</div>
+          </div>
+          <div class="form-group">
+            <label for="WLM_GSE" class="fw-bold">Ground Surface elevation(WLE_GSE):</label>
+            <input type="number" class="form-control" id="WLM_GSE" name="WLM_GSE" required>
+            <div class="invalid-feedback">Please enter a valid Ground Surface elivation value.</div>
+          </div>
+          <div class="form-group">
+            <label for="RPE_WSE" class="fw-bold">Water depth related to sea level(RPE_WSE):</label>
+            <input type="number" class="form-control" id="RPE_WSE" name="RPE_WSE" required>
+            <div class="invalid-feedback">Please enter a valid Water depth value.</div>
+          </div>
+          <div class="form-group">
+            <label for="GSE_WSE" class="fw-bold">Amount of water in feet in a water body(GSE_WSE):</label>
+            <input type="number" class="form-control" id="GSE_WSE" name="GSE_WSE" required>
+            <div class="invalid-feedback">Please enter a valid Amount of water in feet value.</div>
+          </div>
+          <div class="form-group">
+            <label for="WSE_QC" class="fw-bold">Quality Code(WSE_QC):</label>
+            <input type="number" class="form-control" id="WSE_QC" name="WSE_QC" required>
+            <div class="invalid-feedback">Please enter a valid Quality Code value.</div>
+          </div>
+          <button type="submit" class="btn btn-primary">Predict</button>
+        </form>
+         <div id="result" class="mt-4 fs-4 lead fw-bold"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<footer class="bg-primary text-white py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <p>2024 Water Well.</p>
+        </div>
+        <div class="col-md-6 text-md-right">
+          <ul class="list-inline">
+            <li class="list-inline-item"><a href="#" class="text-white"><i class="fab fa-facebook-f"></i></a></li>
+            <li class="list-inline-item"><a href="#" class="text-white"><i class="fab fa-twitter"></i></a></li>
+            <li class="list-inline-item"><a href="#" class="text-white"><i class="fab fa-linkedin-in"></i></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- jQuery and Bootstrap JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+
+  <!-- Script for handling form submission and custom validation -->
+<script>
+  $(document).ready(function() {
+    $('#predictionForm').submit(function(event) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      var form = $(this);
+      var isValid = true;
+
+      form.find(':input').each(function() {
+        if ($(this).prop('required') && !$(this).val()) {
+          isValid = false;
+          $(this).addClass('is-invalid');
+        }
+      });
+
+      if (!isValid) {
+        form.addClass('was-validated');
+        return;
+      }
+
+      var formData = form.serialize();
+
+      $.ajax({
+        type: 'POST',
+        url: '/predict',
+        data: formData,
+        success: function(response) {
+          var message;
+          if (response.prediction < 0) {
+              message = 'Water is already on the surface';
+          } else if (response.prediction > 100) {
+              message = 'Not Feasible';
+          } else {
+              message = 'Feasible';
+          }
+          $('#result').html('<p>Prediction: ' + response.prediction + '</p><p>' + message + '</p>');
+        },
+        error: function(xhr, status, error) {
+          console.error(xhr.responseText);
+          $('#result').html('<p>Error: Unable to make prediction.</p>');
+        }
+      });
+    });
+
+    // Reset validation state on input change
+    $('#predictionForm input').change(function() {
+      $(this).removeClass('is-invalid');
+    });
+  });
+</script>
+</body>
+</html>
